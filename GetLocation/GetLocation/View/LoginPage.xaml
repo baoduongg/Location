@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="GetLocation.View.LoginPage"
+    xmlns:prism="http://prismlibrary.com"
+    prism:ViewModelLocator.AutowireViewModel="True">
+    <StackLayout
+        Orientation="Vertical"
+        Padding="20"
+        Spacing="30"
+        BackgroundColor="#083d5d">
+        <BoxView
+            HeightRequest="10" />
+        <Label
+            Text="Login"
+            FontAttributes="Bold"
+            FontSize="30"
+            TextColor="White"
+            HorizontalTextAlignment="Center"
+            VerticalTextAlignment="Center"
+            HeightRequest="100"
+            WidthRequest="100" />
+        <BoxView
+            HeightRequest="60" />
+        <Frame
+            BackgroundColor="#0c2338"
+            HasShadow="False"
+            CornerRadius="10">
+            <StackLayout Orientation="Vertical" Spacing="10">
+                <Entry
+                    Text="{Binding EtrEmail}"
+                    Placeholder="UserName"
+                    HeightRequest="40"
+                    TextColor="Black" />
+                <Entry
+                    Text="{Binding Password}"
+                    Placeholder="Pass"
+                    HeightRequest="40"
+                    TextColor="Black"
+                    IsPassword="True" />
+                <Button
+                   BackgroundColor="#257b8b"
+                   TextColor="White"
+                   Text="Login"
+                   Command="{Binding LoginCommand}" />
+            </StackLayout>
+        </Frame>
+    </StackLayout>
+</ContentPage>
