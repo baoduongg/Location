@@ -1,15 +1,21 @@
 ﻿using System;
+using Plugin.Geolocator;
 using Prism.Commands;
 using Prism.Navigation;
+using Prism.Services;
 using Xamarin.Forms;
+using Xamarin.Essentials;
+using GetLocation.Extensions;
 
 namespace GetLocation.ViewModel
 {
     public class LoginPageViewModel : ViewModelBase
     {
 
-        public LoginPageViewModel(INavigationService navigationService) : base(navigationService)
+        private IPageDialogService _pageDialogService;
+        public LoginPageViewModel(INavigationService navigationService,IPageDialogService pageDialogService) : base(navigationService)
         {
+            _pageDialogService = pageDialogService;
         }
         private string _userName;
         public string UserName
@@ -29,7 +35,14 @@ namespace GetLocation.ViewModel
         {
             if (IsBusy) return;
             IsBusy = true;
-            await _navigationService.NavigateAsync(nameof(HomePageViewModel));
+           
+            if (Connectivity.NetworkAccess == NetworkAccess.Internet)
+            {
+                var cross = CrossGeolocator.Current.IsGeolocationAvailable;
+                await NavigationShortcuts.GoToMainPageAsync();
+            }
+            else
+                await _pageDialogService.DisplayAlertAsync("", "Turn on Internet", "OK");
             IsBusy = false;
         });
         #endregion

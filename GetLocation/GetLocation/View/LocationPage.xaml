@@ -1,22 +1,46 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage
+<view:PageBase
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:prism="http://prismlibrary.com"
-    xmlns:map="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+    xmlns:view="clr-namespace:GetLocation.View"
+    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     prism:ViewModelLocator.AutowireViewModel="True"
-    x:Class="GetLocation.View.LocationPage">
+    x:Class="GetLocation.View.LocationPage"
+    IconImageSource="iconslocation"
+    Title="Location">
     <Grid>
-        <map:Map MapType="Street" HasZoomEnabled="True" ItemsSource="{Binding Locations}">
-            <map:Map.ItemTemplate>
-               <DataTemplate>
-                   <map:Pin
-                      Position="{Binding Locations.Position}"
-                       Address="{Binding Locations.Address}"
-                       Label="{Binding Locations.PlaceName}">
-                   </map:Pin>
-               </DataTemplate>
-               </map:Map.ItemTemplate>
-        </map:Map>
+         <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <maps:Map x:Name="MapUI"
+                  ItemsSource="{Binding Locations}"
+                  IsShowingUser="True">
+            <maps:Map.ItemTemplate>
+                <DataTemplate>
+                    <maps:Pin Position="{Binding Position}"
+                              Address="{Binding Address}"
+                              Label="{Binding Description}" />
+                </DataTemplate>    
+            </maps:Map.ItemTemplate>
+        </maps:Map>
+        
+        <ScrollView Grid.Row="1"
+                    Orientation="Horizontal">
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="Center">
+                <Button Text="Add"
+                        Command="{Binding AddLocationCommand}" />
+                <Button Text="Remove"
+                        Command="{Binding RemoveLocationCommand}" />
+                <Button Text="Clear"
+                        Command="{Binding ClearLocationsCommand}" />
+                <Button Text="Update"
+                        Command="{Binding UpdateLocationsCommand}" />
+                <Button Text="Replace"
+                        Command="{Binding ReplaceLocationCommand}" />
+            </StackLayout>
+        </ScrollView>
     </Grid>
-</ContentPage>
+</view:PageBase>

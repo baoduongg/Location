@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using ObjCRuntime;
 using Prism.Ioc;
 using UIKit;
 
@@ -14,6 +15,7 @@ namespace GetLocation.iOS
     [Register("AppDelegate")]
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
+        public UIInterfaceOrientationMask OrientationLock { get; set; } = UIInterfaceOrientationMask.Portrait;
         //
         // This method is invoked when the application has loaded and is ready to run. In this 
         // method you should instantiate the window, load the UI into it and then make the window
@@ -29,7 +31,10 @@ namespace GetLocation.iOS
 
             return base.FinishedLaunching(app, options);
         }
+        public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations(UIApplication application, [Transient] UIWindow forWindow)
+        => OrientationLock;
     }
+    
     public class iOSPlatformInitializer : Prism.IPlatformInitializer
     {
         public void RegisterTypes(IContainerRegistry containerRegistry)

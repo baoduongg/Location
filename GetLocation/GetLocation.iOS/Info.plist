@@ -35,10 +35,24 @@
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Can we use your location at all times?</string>
+	<array>
+		<string>Can we use your location at all times?</string>
+		<string>This app needs access to location when in the background.</string>
+	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Can we use your location when your application is being used?</string>
+	<array>
+		<string>Can we use your location when your application is being used?</string>
+		<string>This app needs access to location when open.</string>
+	</array>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Can we use your location at all times?</string>
+	<array>
+		<string>Can we use your location at all times?</string>
+		<string>This app needs access to location when open and in the background.</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
+
 </dict>
 </plist>

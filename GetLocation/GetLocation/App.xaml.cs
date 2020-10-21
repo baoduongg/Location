@@ -1,4 +1,5 @@
 ﻿using System;
+using GetLocation.Extensions;
 using GetLocation.View;
 using GetLocation.ViewModel;
 using Prism;
@@ -16,23 +17,36 @@ namespace GetLocation
         {
 
         }
-
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<NavigationPage>(nameof(NavigationPage));
 
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>(nameof(LoginPageViewModel));
 
+            containerRegistry.RegisterForNavigation<NavigationBase<MainPage>>($"Nav{nameof(MainPage)}");
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>(nameof(MainPageViewModel));
-            containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>(nameof(HomePageViewModel));
+
+            containerRegistry.RegisterForNavigation<HomePage>(nameof(HomePage));
+
+            containerRegistry.RegisterForNavigation<NavigationBase<LocationPage>>($"Nav{nameof(LocationPage)}");
             containerRegistry.RegisterForNavigation<LocationPage, LocationPageViewModel>(nameof(LocationPageViewModel));
         }
 
-        protected override void OnInitialized()
+        protected override async void OnInitialized()
         {
             InitializeComponent();
 
-            NavigationService.NavigateAsync($"{nameof(LoginPageViewModel)}");
+            await NavigationShortcuts.InitFirstPage(NavigationService);
+        }
+    }
+    public class NavigationBase<TView> : NavigationPage
+    {
+        public NavigationBase(TView root) : base(root as Page)
+        {
+            var page = root as Page;
+
+            Title = page.Title;
+            IconImageSource = page.IconImageSource;
         }
     }
 }

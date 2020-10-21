@@ -1,34 +1,41 @@
 ﻿using System;
+using System.ComponentModel;
 using Prism.Mvvm;
 using Xamarin.Forms.Maps;
 
 namespace GetLocation.Model
 {
-    public class LocationModel : BindableBase
+    public class LocationModel : INotifyPropertyChanged
     {
-        private Position _position;
+        Position _position;
+
+        public string Address { get; }
+        public string Description { get; }
+
         public Position Position
         {
-            get { return _position; }
-            set { SetProperty(ref _position, value); }
+            get => _position;
+            set
+            {
+                if (!_position.Equals(value))
+                {
+                    _position = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Position)));
+                }
+            }
         }
-        private string _address;
-        public string Address
-        {
-            get { return _address; }
-            set { SetProperty(ref _address, value); }
-        }
-        private string _placeName;
-        public string PlaceName
-        {
-            get { return _placeName; }
-            set { SetProperty(ref _placeName, value); }
-        }
+
         public LocationModel(string address, string description, Position position)
         {
             Address = address;
             Description = description;
             Position = position;
         }
+
+        #region INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
     }
 }

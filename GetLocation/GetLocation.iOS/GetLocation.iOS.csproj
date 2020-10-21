@@ -131,6 +131,9 @@
     <PackageReference Include="Xamarin.Forms.Maps">
       <Version>4.8.0.1560</Version>
     </PackageReference>
+    <PackageReference Include="Xam.Plugin.Geolocator">
+      <Version>4.5.0.6</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -138,5 +141,10 @@
       <Project>{3321FB17-C41B-4651-AE48-C24AD4F0088A}</Project>
       <Name>GetLocation</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\iconslocation.png" />
+    <BundleResource Include="Resources\iconslocation%402x.png" />
+    <BundleResource Include="Resources\iconslocation%403x.png" />
   </ItemGroup>
 </Project>

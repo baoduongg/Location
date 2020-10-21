@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace GetLocation.View
 {
-    public partial class MainPage : ContentPage
+    public partial class MainPage : PageBase
     {
         public MainPage()
         {

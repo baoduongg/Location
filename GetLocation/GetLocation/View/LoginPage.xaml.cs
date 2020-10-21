@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace GetLocation.View
 {
-    public partial class LoginPage : ContentPage
+    public partial class LoginPage : PageBase
     {
         public LoginPage()
         {
