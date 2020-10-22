@@ -14,9 +14,13 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <maps:Map x:Name="MapUI"
-                  ItemsSource="{Binding Locations}"
-                  IsShowingUser="True">
+        <view:CustomMap
+            MapSpan="{Binding GetMapSpan}"
+           
+            CustomPolygon="{Binding GetPolygon}"
+            x:Name="MapUI"
+            ItemsSource="{Binding Locations}"
+            IsShowingUser="True">
             <maps:Map.ItemTemplate>
                 <DataTemplate>
                     <maps:Pin Position="{Binding Position}"
@@ -24,7 +28,7 @@
                               Label="{Binding Description}" />
                 </DataTemplate>    
             </maps:Map.ItemTemplate>
-        </maps:Map>
+        </view:CustomMap>
         
         <ScrollView Grid.Row="1"
                     Orientation="Horizontal">
@@ -33,7 +37,7 @@
                 <Button Text="Add"
                         Command="{Binding AddLocationCommand}" />
                 <Button Text="Remove"
-                        Command="{Binding RemoveLocationCommand}" />
+                        Command="{Binding AddPolyline}" />
                 <Button Text="Clear"
                         Command="{Binding ClearLocationsCommand}" />
                 <Button Text="Update"
