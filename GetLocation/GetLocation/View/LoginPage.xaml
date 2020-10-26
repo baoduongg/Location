@@ -30,7 +30,7 @@
             CornerRadius="10">
             <StackLayout Orientation="Vertical" Spacing="10">
                 <Entry
-                    Text="{Binding EtrEmail}"
+                    Text="{Binding UserName}"
                     Placeholder="UserName"
                     HeightRequest="40"
                     TextColor="Black" />

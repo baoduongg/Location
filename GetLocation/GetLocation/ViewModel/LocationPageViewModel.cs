@@ -16,6 +16,8 @@ using Xamarin.Forms.Maps;
 using Refit;
 using GetLocation.Interfaces.Location;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net;
 
 namespace GetLocation.ViewModel
 {
@@ -69,7 +71,8 @@ namespace GetLocation.ViewModel
                 StrokeColor = Color.FromHex("#1BA1E2"),
                 FillColor = Color.FromHex("#881BA1E2")
             };
-           var apiResponse = RestService.For<ILocationApi>("https://landber.com");
+
+            var apiResponse = RestService.For<ILocationApi>("https://landber.com");
             var request = new LocationRequest();
             request.CodeTinh = "SG";
             var reponse = await apiResponse.GetListLocation(request,_tokenLocation.Token);
@@ -78,8 +81,8 @@ namespace GetLocation.ViewModel
             {
                 foreach (var item in reponse.Data[0])
                 {
-                    Locations.Add(new LocationModel("", "", new Position(item.Latitude, item.Longitude)));
-                    GetPolyline.Geopath.Add(new Position(item.Latitude, item.Longitude));
+                    //Locations.Add(new LocationModel("", "", new Position(item.Latitude, item.Longitude)));
+                    //GetPolyline.Geopath.Add(new Position(item.Latitude, item.Longitude));
                     GetPolygon.Geopath.Add(new Position(item.Latitude, item.Longitude));
                 }
             }
@@ -110,15 +113,20 @@ namespace GetLocation.ViewModel
         }
         async Task GetLocation()
         {
-            var location = await Geolocation.GetLastKnownLocationAsync();
-            if (location == null)
+            //var location = await Geolocation.GetLastKnownLocationAsync();
+            //if (location == null)
+            //{
+            //    location = await Geolocation.GetLocationAsync(new GeolocationRequest
+            //    {
+            //        DesiredAccuracy = GeolocationAccuracy.High,
+            //        Timeout = TimeSpan.FromSeconds(30)
+            //    });
+            //}
+            var location = await Geolocation.GetLocationAsync(new GeolocationRequest
             {
-                location = await Geolocation.GetLocationAsync(new GeolocationRequest
-                {
-                    DesiredAccuracy = GeolocationAccuracy.High,
-                    Timeout = TimeSpan.FromSeconds(30)
-                });
-            }
+                DesiredAccuracy = GeolocationAccuracy.High,
+                Timeout = TimeSpan.FromSeconds(30)
+            });
             if (location != null)
             {
                 var placemarks = await Geocoding.GetPlacemarksAsync(location.Latitude, location.Longitude);
@@ -136,7 +144,6 @@ namespace GetLocation.ViewModel
         {
             base.OnNavigatedTo(parameters);
             await GetLocation();
-            
         }
     }
 }

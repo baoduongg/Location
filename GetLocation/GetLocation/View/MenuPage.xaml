@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<base:PageBase
+    xmlns:base="clr-namespace:GetLocation.View"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Menu"
+    x:Class="GetLocation.View.MenuPage"
+    IconImageSource="iconslist">
+   <Grid>
+       <Button
+           Command="{Binding LogoutCommand}"
+           Text="Logout"
+           VerticalOptions="Center"
+           HorizontalOptions="Center"/>
+    </Grid>
+</base:PageBase>

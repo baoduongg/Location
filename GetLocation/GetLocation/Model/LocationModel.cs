@@ -30,6 +30,7 @@ namespace GetLocation.Model
             Address = address;
             Description = description;
             Position = position;
+            
         }
 
         #region INotifyPropertyChanged

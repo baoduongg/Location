@@ -152,5 +152,12 @@
     <BundleResource Include="Resources\iconslocation.png" />
     <BundleResource Include="Resources\iconslocation%402x.png" />
     <BundleResource Include="Resources\iconslocation%403x.png" />
+    <BundleResource Include="Resources\iconsmenu.png" />
+    <BundleResource Include="Resources\iconsmenu%402x.png" />
+    <BundleResource Include="Resources\iconsmenu%403x.png" />
+    <BundleResource Include="Resources\iconslist%402x.png" />
+    <BundleResource Include="Resources\iconsist%403x.png" />
+    <BundleResource Include="Resources\iconslist.png" />
+    <BundleResource Include="Resources\iconslist%403x.png" />
   </ItemGroup>
 </Project>

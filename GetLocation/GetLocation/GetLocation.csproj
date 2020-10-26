@@ -26,5 +26,6 @@
     <Folder Include="Extensions\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Interfaces\Location\" />
+    <Folder Include="Interfaces\Login\" />
   </ItemGroup>
 </Project>

@@ -16,7 +16,6 @@
         </Grid.RowDefinitions>
         <view:CustomMap
             MapSpan="{Binding GetMapSpan}"
-           
             CustomPolygon="{Binding GetPolygon}"
             x:Name="MapUI"
             ItemsSource="{Binding Locations}"

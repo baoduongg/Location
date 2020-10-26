@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
+using Xamarin.Forms.PlatformConfiguration;
 
 namespace GetLocation.View
 {
@@ -10,6 +12,8 @@ namespace GetLocation.View
         public MainPage()
         {
             InitializeComponent();
+            lv.On<iOS>().SetSeparatorStyle(SeparatorStyle.FullWidth);
+            lv.On<iOS>().SetRowAnimationsEnabled(false);
         }
     }
 }

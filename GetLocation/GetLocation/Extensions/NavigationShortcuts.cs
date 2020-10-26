@@ -35,6 +35,7 @@ namespace GetLocation.Extensions
             {
                 { KnownNavigationParameters.CreateTab, $"Nav{nameof(LocationPage)}" }, // use NavigationPage as a tab item
                 { KnownNavigationParameters.CreateTab, $"Nav{nameof(MainPage)}"},
+                { KnownNavigationParameters.CreateTab, $"Nav{nameof(MenuPage)}"},
                 { KnownNavigationParameters.SelectedTab, $"Nav{nameof(LocationPage)}" },
             };
             var queryUri = $"{prefixUrl}{nameof(HomePage)}{navParams}";
