@@ -27,5 +27,9 @@
     <Folder Include="Interfaces\" />
     <Folder Include="Interfaces\Location\" />
     <Folder Include="Interfaces\Login\" />
+    <Folder Include="Interfaces\RecordInfo\" />
+    <Folder Include="Interfaces\Storage\" />
+    <Folder Include="Interfaces\Migration\" />
+    <Folder Include="Interfaces\List\" />
   </ItemGroup>
 </Project>

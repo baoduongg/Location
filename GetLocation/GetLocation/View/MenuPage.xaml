@@ -9,7 +9,7 @@
    <Grid>
        <Button
            Command="{Binding LogoutCommand}"
-           Text="Logout"
+           Text="{Binding AcessTokenUI}"
            VerticalOptions="Center"
            HorizontalOptions="Center"/>
     </Grid>

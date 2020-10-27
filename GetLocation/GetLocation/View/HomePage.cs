@@ -1,4 +1,6 @@
 ﻿using System;
+using GetLocation.Interfaces;
+using Prism.Common;
 using Prism.Navigation;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
@@ -29,6 +31,48 @@ namespace GetLocation.View
         }
         public void Destroy()
         {
+            _lastTabIndex = -1;
+            _tabSelectedParameters = null;
+        }
+        INavigationParameters _tabSelectedParameters;
+        public void SyncTabSelectedParameters(INavigationParameters navigationParameters)
+        {
+            _tabSelectedParameters = navigationParameters;
+        }
+        protected override async void OnCurrentPageChanged()
+        {
+            base.OnCurrentPageChanged();
+            var currentPage = PageUtilities.GetCurrentPage(CurrentPage);
+            var parameters = _tabSelectedParameters;
+            if (parameters == null)
+                parameters = new NavigationParameters();
+
+            /*
+             * After call UnSelected of old tab, call Selected of current tab
+             */
+            InvokeTabUnSelected(parameters);
+
+            PageUtilities.InvokeViewAndViewModelAction<ITabSelectedAware>(currentPage,
+                tabSelectedAware => tabSelectedAware.TabSelected(parameters));
+
+            _tabSelectedParameters = null;
+        }
+        int _lastTabIndex = -1;
+
+        void InvokeTabUnSelected(INavigationParameters pr)
+        {
+            var currentTabIndex = Children.IndexOf(CurrentPage);
+            if (currentTabIndex != _lastTabIndex)
+            {
+                if (_lastTabIndex != -1)
+                {
+                    var lastTabPage = Children[_lastTabIndex];
+                    var topUnSelectedPage = PageUtilities.GetCurrentPage(lastTabPage);
+                    PageUtilities.InvokeViewAndViewModelAction<ITabSelectedAware>(topUnSelectedPage,
+                        tabSelectedAware => tabSelectedAware.TabUnSelected(pr));
+                }
+                _lastTabIndex = currentTabIndex;
+            }
         }
     }
     public class Colors

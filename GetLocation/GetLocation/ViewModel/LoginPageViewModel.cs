@@ -6,16 +6,26 @@ using Prism.Services;
 using Xamarin.Forms;
 using Xamarin.Essentials;
 using GetLocation.Extensions;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using Newtonsoft.Json;
+using GetLocation.Model;
+using GetLocation.Interfaces.Login;
 
 namespace GetLocation.ViewModel
 {
+
     public class LoginPageViewModel : ViewModelBase
     {
-
         private IPageDialogService _pageDialogService;
-        public LoginPageViewModel(INavigationService navigationService,IPageDialogService pageDialogService) : base(navigationService)
+        private ILoginService _loginService;
+        public LoginPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService,ILoginService loginService) : base(navigationService)
         {
             _pageDialogService = pageDialogService;
+            _loginService = loginService;
+            UserName = "duong_dev";
+            Password = "duong@123";
         }
         private string _userName;
         public string UserName
@@ -35,16 +45,50 @@ namespace GetLocation.ViewModel
         {
             if (IsBusy) return;
             IsBusy = true;
-           
+
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
-                var cross = CrossGeolocator.Current.IsGeolocationAvailable;
-                await NavigationShortcuts.GoToMainPageAsync();
+                var reponse = await _loginService.Login(UserName,Password);
+                if (reponse.IsSuccess)
+                {
+                    //await _loginService.SaveIdAsync(UserName);
+                    //await _loginService.SavePasswordAsync(Password);
+                    AcessToken = reponse.AccessToken;
+                    await NavigationShortcuts.GoToMainPageAsync();
+                }
+                else
+                {
+                    await _pageDialogService.DisplayAlertAsync("", "Login Fail", "OK");
+                    //await _loginService.SaveIdAsync(null);
+                    //await _loginService.SavePasswordAsync(null);
+                }
             }
             else
                 await _pageDialogService.DisplayAlertAsync("", "Turn on Internet", "OK");
             IsBusy = false;
         });
         #endregion
+        public override async void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+            //var user = await _loginService.GetIdAsync();
+            //if (user != null)
+            //{
+            //    UserName = user;
+            //}
+            //else
+            //{
+            //    UserName = null;
+            //}
+            //var pass = await _loginService.GetPasswordAsync();
+            //if (pass != null)
+            //{
+            //    Password = pass;
+            //}
+            //else
+            //{
+            //    Password = null;
+            //}
+        }
     }
 }

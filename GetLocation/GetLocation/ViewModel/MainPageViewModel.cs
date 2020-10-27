@@ -9,18 +9,22 @@ using System.Threading;
 using GetLocation.Model;
 using GetLocation.Interfaces.Location;
 using Xamarin.Forms.Maps;
+using GetLocation.Interfaces.List;
+using GetLocation.Interfaces;
 
 namespace GetLocation.ViewModel
 {
-    public class MainPageViewModel : ViewModelBase
+    public class MainPageViewModel : ViewModelBase, ITabSelectedAware
     {
-        public MainPageViewModel(INavigationService navigationService) : base(navigationService)
+        private IListService _listService;
+        public MainPageViewModel(INavigationService navigationService,IListService listService) : base(navigationService)
         {
+            _listService = listService;
         }
         CancellationTokenSource _tokenLocation;
 
-        private ObservableCollection<LocationModel> _locations;
-        public ObservableCollection<LocationModel> Locations
+        private ObservableCollection<Message> _locations;
+        public ObservableCollection<Message> Locations
         {
             get { return _locations; }
             set { SetProperty(ref _locations, value); }
@@ -38,27 +42,29 @@ namespace GetLocation.ViewModel
         #endregion
         async Task GetLocation()
         {
-            _tokenLocation?.Cancel();
-            _tokenLocation = new CancellationTokenSource();
-            Locations = new ObservableCollection<LocationModel>();
-
-            var apiResponse = RestService.For<ILocationApi>("https://landber.com");
-            var request = new LocationRequest();
-            request.CodeTinh = "SG";
-            var reponse = await apiResponse.GetListLocation(request, _tokenLocation.Token);
-
-            if (reponse.Data[0] != null)
+            Locations = new ObservableCollection<Message>();
+            var reponse =  await _listService.GetList(AcessToken);
+            if (reponse.Success > 0)
             {
-                foreach (var item in reponse.Data[0])
+                foreach (var item in reponse.Message)
                 {
-                    Locations.Add(new LocationModel($"{item.Latitude}", $"{item.Longitude}", new Position(item.Latitude, item.Longitude)));
+                    Locations.Add(item);
                 }
             }
+
         }
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
+        }
+
+        public async void TabSelected(INavigationParameters navigationParameters)
+        {
             await GetLocation();
+        }
+
+        public void TabUnSelected(INavigationParameters navigationParameters)
+        {
         }
     }
 }

@@ -21,6 +21,7 @@ namespace GetLocation.Extensions
         public static async Task<INavigationResult> GoToLoginPageAsync()
         {
             var currentPage = GetCurrentPageOfMainStack();
+            ViewModelBase.AcessToken = null;
             var prefixUrl = string.Join(string.Empty, currentPage.Navigation.NavigationStack.Select(p => RemovePagePrefix).ToArray());// remove all pre-page
             prefixUrl += nameof(LoginPageViewModel);
             var navigationService = NavigationExtentions.CreateNavigationService(currentPage);

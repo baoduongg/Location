@@ -39,7 +39,10 @@
                     Placeholder="Pass"
                     HeightRequest="40"
                     TextColor="Black"
-                    IsPassword="True" />
+                    IsPassword="True"
+                    ReturnType="Done"
+                    ReturnCommand="{Binding LoginCommand}"
+                    />
                 <Button
                    BackgroundColor="#257b8b"
                    TextColor="White"

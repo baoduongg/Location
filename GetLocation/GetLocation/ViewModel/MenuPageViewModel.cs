@@ -11,8 +11,14 @@ namespace GetLocation.ViewModel
        
         public MenuPageViewModel(INavigationService navigationService) : base(navigationService)
         {
+            AcessTokenUI = AcessToken;
         }
-
+        private string _acessToken;
+        public string AcessTokenUI
+        {
+            get { return _acessToken; }
+            set { SetProperty(ref _acessToken, value); }
+        }
         #region LogoutCommand
         private DelegateCommand _logoutCommand;
         public DelegateCommand LogoutCommand => _logoutCommand = new DelegateCommand(async () =>

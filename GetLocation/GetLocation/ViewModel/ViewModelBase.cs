@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using Prism;
 using Prism.AppModel;
@@ -13,7 +15,9 @@ namespace GetLocation.ViewModel
         IApplicationLifecycleAware,
         IDestructible,
         IInitializeAsync
+        
     {
+        public static string AcessToken = string.Empty;
         public readonly INavigationService _navigationService;
         public ViewModelBase(INavigationService navigationService)
         {
@@ -57,6 +61,12 @@ namespace GetLocation.ViewModel
 
         public virtual void OnSleep()
         {
+        }
+        public void SetBasicAuthHeader(WebRequest request, String userName, String userPassword)
+        {
+            string authInfo = userName + ":" + userPassword;
+            authInfo = Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
+            request.Headers["Authorization"] = "Basic " + authInfo;
         }
     }
 }

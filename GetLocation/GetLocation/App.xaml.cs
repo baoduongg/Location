@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Threading.Tasks;
 using GetLocation.Extensions;
+using GetLocation.Interfaces.Migration;
 using GetLocation.View;
 using GetLocation.ViewModel;
 using Prism;
 using Prism.Ioc;
+using Prism.Services;
 using Prism.Unity;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -19,28 +22,20 @@ namespace GetLocation
         }
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<NavigationPage>(nameof(NavigationPage));
-
-            containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>(nameof(LoginPageViewModel));
-
-            containerRegistry.RegisterForNavigation<NavigationBase<MainPage>>($"Nav{nameof(MainPage)}");
-
-            containerRegistry.RegisterForNavigation<NavigationBase<MenuPage>>($"Nav{nameof(MenuPage)}");
-            containerRegistry.RegisterForNavigation<MenuPage, MenuPageViewModel>(nameof(MenuPageViewModel));
-
-
-            containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>(nameof(MainPageViewModel));
-
-            containerRegistry.RegisterForNavigation<HomePage>(nameof(HomePage));
-
-            containerRegistry.RegisterForNavigation<NavigationBase<LocationPage>>($"Nav{nameof(LocationPage)}");
-            containerRegistry.RegisterForNavigation<LocationPage, LocationPageViewModel>(nameof(LocationPageViewModel));
+            Ioc.Current.RegisterTypes(containerRegistry,
+               new ServicesRegistry(), // register business services
+               new NavigationRegistry()); // register for navigation
         }
 
         protected override async void OnInitialized()
         {
             InitializeComponent();
-
+            var migrationService = Container.Resolve<IMigrationService>();
+            //Task.Run(async () =>
+            //{
+            //    await migrationService.PrepareRestoredData();
+            //    await migrationService.MigrateAsync();
+            //}).Wait();
             await NavigationShortcuts.InitFirstPage(NavigationService);
         }
     }
